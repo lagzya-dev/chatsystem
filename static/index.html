@@ -16,15 +16,37 @@
         #messages { list-style-type: none; margin: 0; padding: 0; }
         #messages > li { padding: 0.5rem 1rem; }
         #messages > li:nth-child(odd) { background: #efefef; }
+        #emojis {display:none; position:absolute;z-index:100;background:#555;border:1px solid #333;padding:2px;max-width:38%;	bottom:32px;}
+        .emojiinlist {vertical-align:middle;
+	width:20px;
+	margin:1px;
+	cursor:pointer;}
       </style>
 <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
     <ul id="messages"></ul>
     <form id="form" action="">
+      <img id="emoji" src='https://www.emojiall.com/images/120/bubble/1f600.png'>
       <input id="input" autocomplete="off" /><button>Send</button>
     </form>
-
+    <ul id="emojis">
+      <li>
+        <img class ="emojiinlist" id="emojisst" src='https://www.emojiall.com/images/120/bubble/1f600.png' >
+        
+        <img class ="emojiinlist" id="emoji2" src='https://www.emojiall.com/images/120/bubble/1f600.png' >
+        
+        <img class ="emojiinlist" id="emoji3" src='https://www.emojiall.com/images/120/bubble/1f600.png' >
+        
+        <img class ="emojiinlist" id="emoji4" src='https://www.emojiall.com/images/120/bubble/1f600.png' >
+        
+        <img class ="emojiinlist" id="emoji5" src='https://www.emojiall.com/images/120/bubble/1f600.png' >
+        
+        <img class ="emojiinlist" id="emoji6" src='https://www.emojiall.com/images/120/bubble/1f600.png' >
+        
+        <img class ="emojiinlist" id="emoji7" src='https://www.emojiall.com/images/120/bubble/1f600.png'>
+      </li>
+    </ul>
 
 <script src="/static/client.js"></script>
 </body>

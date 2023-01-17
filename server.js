@@ -27,11 +27,11 @@ io.on('connection', (socket) => {
     console.log('USER CONNECTED');
 
     socket.on('new', function () {
-        console.log(123)
         clients.push(
             {
                 'isFirst': true,
                 'nickname': "",
+                'isAdmin': true,
                 'socketId': socket.id
             });
         console.log(message)
@@ -39,7 +39,8 @@ io.on('connection', (socket) => {
         for(let i = 0; i < message.length; i++){
             socket.emit("chat message", message[i])
         }
-        socket.emit("chat message", {owner:"АДМИНИСТРАЦИЯ", msg:"Отправьте ваш никнейм"})
+        socket.emit("chat message", {owner:"BOT", msg:"Отправьте ваш никнейм",
+        colorname:  "green" })
      });
 
     socket.on('disconnect', function (data) {
@@ -59,8 +60,9 @@ io.on('connection', (socket) => {
             if (index <= -1) {
 
                 let send = {
-                    owner: "АДМИНИСТРАЦИЯ",
-                    msg: "Перезагрузите страницу вы не подключены!"
+                    owner: "BOT",
+                    msg: "Перезагрузите страницу вы не подключены!",
+                    colorname:  "green"
                 };
                 socket.emit("chat message", send)
                 return;
@@ -68,8 +70,9 @@ io.on('connection', (socket) => {
         }
         if(item.isFirst == true){
             let send = {
-                owner: "АДМИНИСТРАЦИЯ",
-                msg: "Спасибо теперь вы можете писать сообщения"
+                owner: "BOT",
+                msg: "Спасибо теперь вы можете писать сообщения",
+                colorname: "green" 
             };
             item.isFirst = false;
             item.nickname = msg;
@@ -78,7 +81,8 @@ io.on('connection', (socket) => {
         }
         let send = {
             owner: item.nickname,
-            msg: msg
+            msg: msg,
+            colorname: item.isAdmin ?  "red" : ""
         };
         message.push(send)
         console.log(msg)
