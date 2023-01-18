@@ -8,14 +8,14 @@ const io = socket(server);
 
 
 app.set("port", 5000);
-app.use("/static", express.static(__dirname + "/static"));
+app.use("/static/src", express.static(__dirname + "/static/src"));
 
 
 app.get("/", (requst, response) => {
     response.sendFile(path.join(__dirname + "/static", "index.html"))
 })
-app.get('/app.css', function(req, res) {
-    res.sendFile(__dirname + "/static/" + "app.css");
+app.get('/style/app.css', function(req, res) {
+    res.sendFile(__dirname + "/static/style/" + "app.css");
   });
 app.get('/audio/notify.mp3', function(req, res) {
     res.sendFile(__dirname + "/static/audio/" + "notify.mp3");
@@ -37,18 +37,22 @@ io.on('connection', (socket) => {
             socket.emit("alert", "Запрещенное имя")
             return
         }
-        if(name.length < 3){
+
+        if(name.length < 3) {
             socket.emit("alert", "Имя слишком короткое")
             return
         }
-        if(email == ""){
+
+        if(email == "") {
             socket.emit("alert", "ВВЕДИТЕ ПОЧТУ")
             return;
         }
-        if(rules == null ){
+
+        if(rules == null ) {
             socket.emit("alert", "ВЫ НЕ СОГЛАСИЛИСЬ С ПРАВИЛАМИ")
             return;
         }
+
         if(captcha == null){
             socket.emit("alert", "ВЫ РОБОТ")
         }

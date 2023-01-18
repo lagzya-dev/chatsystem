@@ -10,8 +10,8 @@ var notify = document.getElementById('notify');
 
 var emoji1 = document.getElementById('emojisst');
 
-
 let volume = 0.2;
+
 if(form ){
     form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -28,6 +28,7 @@ if(form ){
     }
     });
 }
+
 if(reg){
     reg.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -38,6 +39,7 @@ if(reg){
         }
     })
 }
+
 if(emoji) {
     emoji.addEventListener("click", (e) => {
         e.preventDefault()
@@ -48,12 +50,14 @@ if(emoji) {
         else document.getElementById("emojis").style.display = "block";
     })
 }
+
 if(emoji1) {
     emoji1.addEventListener("click", (e) => {
         e.preventDefault()
         input.value +=" :happy:";
     })
 }
+
 if(form ){
     form.addEventListener('submit', function(e) {
     e.preventDefault();
@@ -63,6 +67,7 @@ if(form ){
     }
     });
 }
+
 socket.on('chat message', function(msg) {
     var item = document.createElement('li');
     item.textContent = msg.owner;
@@ -92,11 +97,14 @@ socket.on('chat message', function(msg) {
 
     window.scrollTo(0, document.body.scrollHeight);
   });
+
 socket.emit("new");
+
 socket.on("regsec", () =>{
     document.body.style.overflow = "visible";
     document.getElementById("auth").style.display = "none";
 });
+
  socket.on("alert", (text) =>{
     alert(text);
  })
@@ -107,6 +115,7 @@ socket.on("notify", () =>{
     audio.volume = parseFloat(volume);
     audio.play();
 })
+
  socket.on("clearChat", () =>{
     for(let i = messages.children.length - 1; i >= 0; i--){
         messages.removeChild(messages.children[i]);
