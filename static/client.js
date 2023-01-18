@@ -34,7 +34,7 @@ if(reg){
         if(document.forms.registr){
             var formData = new FormData(document.forms.registr)
       
-            socket.emit("register", formData.get("name"), formData.get("email"), formData.get("rules"))
+            socket.emit("register", formData.get("name"), formData.get("email"), formData.get("rules"), formData.get("captcha"))
         }
     })
 }
