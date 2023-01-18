@@ -28,6 +28,7 @@ let clients = [];
 let count = 1;
 let message = [];
 let mutes = [];
+let events = [];
 let blockedname = ["Admin", "Administrator", "Админ", "Администратор"]
 io.on('connection', (socket) => {
     console.log('USER CONNECTED');
@@ -93,7 +94,7 @@ io.on('connection', (socket) => {
              }
         }
         if(msg[0] == "/"){
-            let args = msg.split(" ");;
+            let args = msg.split(" ");
             switch(args[0]){
                 case "/admin":
                     item.isAdmin = true;
@@ -124,6 +125,40 @@ io.on('connection', (socket) => {
                     message.push(send)
                     console.log(msg)
                     io.emit("chat message", send)
+                    io.emit('notify')
+                    break;
+                case "/start":
+                    let exsitsEvent = events.find(p => p.owner == item.nickname);
+                    if(exsitsEvent){
+                        console.log(events.length + "|" + events)
+                        return;}
+                    let event = {
+                        id: events.length + 1,
+                        owner: item.nickname,
+                        answer: args[1]
+                    }
+                    events.push(event);
+                    let msg = {
+                        owner: "BOT",
+                        msg: "" + `Пользователь ${item.nickname} запустил ивент /join ${events.length} камень/ножницы/бумага`,
+                        colorname:  "green"
+                    };
+                    io.emit("chat message", msg)
+                    io.emit('notify')
+                    break;
+                case "/join":
+                    let eventTriger = events.find(p => p.id == args[1])
+                    if(!eventTriger) return;
+                    let msgJoin = {
+                        owner: "BOT",
+                        msg: "" + `Ивент ${eventTriger.id} пользователь ${item.nickname} выбрал: ${args[2]}, а пользователь ${eventTriger.owner} выбрал: ${eventTriger.answer}`,
+                        colorname:  "green"
+                    };
+                    let findIndex = events.indexOf(eventTriger); 
+                    if(findIndex > -1){
+                        events.splice(findIndex, 1);
+                    }
+                    io.emit("chat message", msgJoin)
                     io.emit('notify')
                     break;
             }
