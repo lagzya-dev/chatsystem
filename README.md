@@ -14,7 +14,7 @@ Command /roll random number 0-100
 
 Add minigame rock/paper/scissors
 
-/start rock/paper/scissors
+/start камень/бумага/ножницы
 
-/join numEvent rock/paper/scissors
+/join numEvent камень/бумага/ножницы
 
