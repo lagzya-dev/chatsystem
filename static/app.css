@@ -95,7 +95,6 @@ body {
     margin: 0;
     margin-left: 25%;
     margin-right: 25%;
-    
     padding-bottom: 3rem;
 }
 
@@ -115,9 +114,16 @@ cursor: crosshair;
 }
 
 .mb{
-    margin-bottom: 1.5em;
     box-sizing: border-box;
-    height: 50px;
-    padding: 10px 20px;
+    text-align: ;
   
+}
+
+.forma {
+max-width: 500px;
+display: flex;
+margin: 0 auto;
+justify-content: space-between;
+ flex-direction: column;
+ gap: 30px;
 }
