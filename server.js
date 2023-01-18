@@ -13,9 +13,13 @@ app.use("/static", express.static(__dirname + "/static"));
 
 app.get("/", (requst, response) => {
     response.sendFile(path.join(__dirname + "/static", "index.html"))
-
 })
-
+app.get('/app.css', function(req, res) {
+    res.sendFile(__dirname + "/static/" + "app.css");
+  });
+app.get('/audio/notify.mp3', function(req, res) {
+    res.sendFile(__dirname + "/static/audio/" + "notify.mp3");
+});
 server.listen(5000, () => {
     console.log("Start server")
 });
@@ -23,24 +27,44 @@ server.listen(5000, () => {
 let clients = [];
 let count = 1;
 let message = [];
+let mutes = [];
+let blockedname = ["Admin", "Administrator", "Админ", "Администратор"]
 io.on('connection', (socket) => {
     console.log('USER CONNECTED');
-
-    socket.on('new', function () {
+    socket.on('register', function (name, email, rules, captcha) {
+        if(blockedname.includes(name)){
+            socket.emit("alert", "Запрещенное имя")
+            return
+        }
+        if(name.length < 3){
+            socket.emit("alert", "Имя слишком короткое")
+            return
+        }
+        if(email == ""){
+            socket.emit("alert", "ВВЕДИТЕ ПОЧТУ")
+            return;
+        }
+        if(rules == null ){
+            socket.emit("alert", "ВЫ НЕ СОГЛАСИЛИСЬ С ПРАВИЛАМИ")
+            return;
+        }
+        if(captcha == null){
+            socket.emit("alert", "ВЫ РОБОТ")
+        }
+       
         clients.push(
             {
-                'isFirst': true,
-                'nickname': "",
-                'isAdmin': true,
+                'nickname': name,
+                'email': email,
+                'isAdmin': false,
                 'socketId': socket.id
             });
+          
         console.log(message)
-        
+        socket.emit("regsec");
         for(let i = 0; i < message.length; i++){
             socket.emit("chat message", message[i])
         }
-        socket.emit("chat message", {owner:"BOT", msg:"Отправьте ваш никнейм",
-        colorname:  "green" })
      });
 
     socket.on('disconnect', function (data) {
@@ -68,15 +92,41 @@ io.on('connection', (socket) => {
                 return;
              }
         }
-        if(item.isFirst == true){
-            let send = {
-                owner: "BOT",
-                msg: "Спасибо теперь вы можете писать сообщения",
-                colorname: "green" 
-            };
-            item.isFirst = false;
-            item.nickname = msg;
-            socket.emit("chat message", send)
+        if(msg[0] == "/"){
+            let args = msg.split(" ");;
+            switch(args[0]){
+                case "/admin":
+                    item.isAdmin = true;
+                    break
+                case "/clear":
+                    message = [];
+                    io.emit("clearChat");
+                    break
+                case "/mute":
+                    args = msg.split(" ");
+                    console.log(args[1])
+                    mutes.push(args[1].toLowerCase());
+                    break;
+                case "/unmute":
+                    let user = mutes.find(p => p == args[1].toLowerCase());
+                    console.log(user);
+                    const index = mutes.indexOf(user);
+                    if (index > -1) {
+                        mutes.splice(index, 1);
+                    }
+                    break;  
+                case "/roll":
+                    let send = {
+                        owner: item.nickname,
+                        msg: "" + `${parseInt(Math.random() * 100)}`,
+                        colorname: item.isAdmin ?  "red" : ""
+                    };
+                    message.push(send)
+                    console.log(msg)
+                    io.emit("chat message", send)
+                    io.emit('notify')
+                    break;
+            }
             return;
         }
         let send = {
@@ -84,8 +134,19 @@ io.on('connection', (socket) => {
             msg: msg,
             colorname: item.isAdmin ?  "red" : ""
         };
+        if(mutes.includes(item.nickname.toLowerCase())){
+
+            let send = {
+                owner: "BOT",
+                msg: "У вас блокировка чата.",
+                colorname:  "green"
+            };
+            socket.emit("chat message", send)
+            return
+        }
         message.push(send)
         console.log(msg)
         io.emit("chat message", send)
+        io.emit('notify')
       });
   });

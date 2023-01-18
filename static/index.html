@@ -4,49 +4,54 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyGAmes</title>
-    <style>
-        body { margin: 0; padding-bottom: 3rem; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-  
-        #form { background: rgba(0, 0, 0, 0.15); padding: 0.25rem; position: fixed; bottom: 0; left: 0; right: 0; display: flex; height: 3rem; box-sizing: border-box; backdrop-filter: blur(10px); }
-        #input { border: none; padding: 0 1rem; flex-grow: 1; border-radius: 2rem; margin: 0.25rem; }
-        #input:focus { outline: none; }
-        #form > button { background: #333; border: none; padding: 0 1rem; margin: 0.25rem; border-radius: 3px; outline: none; color: #fff; }
-  
-        #messages { list-style-type: none; margin: 0; padding: 0; }
-        #messages > li { padding: 0.5rem 1rem; }
-        #messages > li:nth-child(odd) { background: #efefef; }
-        #emojis {display:none; position:absolute;z-index:100;background:#555;border:1px solid #333;padding:2px;max-width:38%;	bottom:32px;}
-        .emojiinlist {vertical-align:middle;
-	width:20px;
-	margin:1px;
-	cursor:pointer;}
-      </style>
+    <title>CHAT-SYSTEM</title>
+    <link rel="stylesheet" href="app.css"/>
 <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
     <ul id="messages"></ul>
     <form id="form" action="">
       <img id="emoji" src='https://www.emojiall.com/images/120/bubble/1f600.png'>
+      <ul id="emojis">
+        <li>
+          <img class ="emojiinlist" id="emojisst" src='https://www.emojiall.com/images/120/bubble/1f600.png' >
+          
+        </li>
+      </ul>
       <input id="input" autocomplete="off" /><button>Send</button>
     </form>
-    <ul id="emojis">
-      <li>
-        <img class ="emojiinlist" id="emojisst" src='https://www.emojiall.com/images/120/bubble/1f600.png' >
-        
-        <img class ="emojiinlist" id="emoji2" src='https://www.emojiall.com/images/120/bubble/1f600.png' >
-        
-        <img class ="emojiinlist" id="emoji3" src='https://www.emojiall.com/images/120/bubble/1f600.png' >
-        
-        <img class ="emojiinlist" id="emoji4" src='https://www.emojiall.com/images/120/bubble/1f600.png' >
-        
-        <img class ="emojiinlist" id="emoji5" src='https://www.emojiall.com/images/120/bubble/1f600.png' >
-        
-        <img class ="emojiinlist" id="emoji6" src='https://www.emojiall.com/images/120/bubble/1f600.png' >
-        
-        <img class ="emojiinlist" id="emoji7" src='https://www.emojiall.com/images/120/bubble/1f600.png'>
-      </li>
-    </ul>
+   
+    <div class="auth" id="auth">
+      
+    <div class = "reg">
+      <p class = "font">Регистрация пользователя</p>
+      <form id="registr" name="registr">
+        <div class="mb">
+          <label for="name">Введите Имя</label>
+        <input name="name" type="text">
+      </div>
+        <div class="md">
+          <label for="name">Введите email</label>
+        <input name="email" type="email">
+      </div>
+        <div class="md">
+          <label>
+          <input name="rules" type="checkbox" >
+            Я принимаю условия пользования
+          </label>
+        </div>
+        <div class="md">
+          <label>
+           <input name="captcha" type="checkbox" >
+            Я не робот
+          </label>
+        </div>
+        <div class="mb">
+          <button class="btn" >Зарегистрироваться</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
 <script src="/static/client.js"></script>
 </body>
