@@ -1,65 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CHAT-SYSTEM</title>
-    <link rel="stylesheet" href="style/app.css"/>
-<script src="/socket.io/socket.io.js"></script>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CHAT-SYSTEM</title>
+  <link rel="stylesheet" href="style/app.css" />
+  <script src="/socket.io/socket.io.js"></script>
 </head>
+
 <body>
+  <div style="background-color: #5475d7;">
     <ul id="messages"></ul>
-    <form id="form" action="">
-      <img id="emoji" src='https://www.emojiall.com/images/120/bubble/1f600.png'>
-      <ul id="emojis">
-        <li>
-          <img class ="emojiinlist" id="emojisst" src='https://www.emojiall.com/images/120/bubble/1f600.png' >
-          
-        </li>
+  </div>
+  <form id="form" action="">
+    <img id="emoji" src='https://www.emojiall.com/images/120/bubble/1f600.png'>
+    <ul id="emojis">
+      <li>
+        <img class="emojiinlist" id="emojisst" src='https://www.emojiall.com/images/120/bubble/1f600.png'>
+      </li>
+    </ul>
+    <div style="position: relative; width: 300px; height: 40px;">
+      <ul id="list-commands"
+        style="position: absolute;z-index:2;background-color: rgb(255, 255, 255); inset:0; top: auto; display: flex; flex-direction: column; gap: 30px; pointer-events: none; bottom: 80%;"
+        id="commands-list">
+        <li>/roll</li>
+        <li>/admin</li>
+        <li>/start камень/ножницы/бумага</li>
       </ul>
-      <input id="input" autocomplete="off" /><button>Send</button>
-    </form>
-   
-    <div class="auth" id="auth">
-      
-    <div class = "reg">
-      <p class = "font">Регистрация пользователя</p>
-      <form id="registr" name="registr" class="forma">
-        <div class="mb">
-          <label for="name">Введите Имя</label>
-        <input name="name" type="text">
-      </div>
-        <div class="md">
-          <label for="name">Введите email</label>
-        <input name="email" type="email">
-      </div>
-      <div class="md">
-        <label for="name">Введите пароль</label>
-      <input name="password" type="password">
+      <input id="input" autocomplete="off" style="position: absolute; inset:0; width: 100%; height: 100%;" />
     </div>
-        <div class="md">
-          <label>
-          <input name="rules" type="checkbox" >
-            Я принимаю условия пользования
-          </label>
-        </div>
-        <div class="md">
-          <label>
-           <input name="captcha" type="checkbox" >
-            Я не робот
-          </label>
-        </div>
-        <div class="mb">
-          <button class="btn" >Зарегистрироваться</button>
-        </div>
-      </form>
+    <button>Send</button>
+    <button id="see-comands">see comands</button>
+  </form>
+  <div class="auth" id="auth">
+    <a href="#" class="tab" data-tab="Регистрация" id="button1">Регистрация</a>
+    <a href="#" class="tab" data-tab="Вход" id="button2">Вход</a>
+    <section>
+      <div class="reg content" id="regID">
+        <form id="registr" name="registr" class="forma">
+          <div class="mb">
+            <label for="name" class="align">Введите Имя</label>
+            <input name="name" type="text" placeholder="Имя" class="border">
+          </div>
+          <div class="md">
+            <label for="name" class="align">Введите email</label>
+            <input name="email" type="email" placeholder="Адресс электронной почты" class="border">
+          </div>
+          <div class="md">
+            <label for="name" class="align">Введите пароль</label>
+            <input name="password" type="password" placeholder="Пароль должен состоять из 8 символов" class="border">
+          </div>
+          <div class="md">
+            <label for="name" class="align">Повторите пароль</label>
+            <input name="repeatpassword" type="password" placeholder="Повторите пароль" class="border">
+          </div>
+          <div class="md">
+            <label class="align">
+              <input name="rules" type="checkbox">
+              Я принимаю условия пользования
+            </label>
+          </div>
+          <div class="md">
+            <label class="align">
+              <input name="captcha" type="checkbox">
+              Я не робот
+            </label>
+          </div>
+          <div class="mb">
+            <button class="btn">Зарегистрироваться</button>
+          </div>
+        </form>
+      </div>
+      <div class="auths content" id="authID">
+        <form id="authr" name="authr" class="forma">
+          <div class="mb">
+            <label for="name" class="align">Введите Логин</label>
+            <input name="name" type="text" placeholder="Логин" class="border">
+          </div>
+          <div class="mb">
+            <label for="password" class="align">Введите Пароль</label>
+            <input name="password" type="text" placeholder="Пароль" class="border">
+          </div>
+          <div class="mb">
+            <button class="btn">Авторизация</button>
+          </div>
+        </form>
+      </div>
+  </div>
+
+  <div class="panel">Пользователи онлайн
+    <div class="hidden-panel">
     </div>
   </div>
 
-  <div></div>
+  </section>
 
 
-<script src="/static/src/client.js"></script>
+  <script src="/static/src/client.js"></script>
 </body>
+
 </html>
